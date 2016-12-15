@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mapper.mapperBook">
+
+<select id="getSQLSelectAll" resultType="modelbook">
+        select * from book order by bookid asc
+</select>
+
+<select id="getSQLSelectLike" parameterType="string" resultType="modelbook">
+        select * from book where bookname like '%'||#{bookname}||'%'
+</select>
+
+<select id="getSQLSelectEqual" parameterType="string" resultType="modelbook">
+        select * from book where bookname = #{bookname}
+</select>
+
+<insert id="setSQLInsert" parameterType="modelbook">
+  insert into book(bookid                  , bookname, publisher, year, price, dtm, use_yn, authid)
+  values ( (SELECT MAX(bookid)+1 FROM Book), #{bookname},#{publisher},#{year},#{price},#{dtm},#{use_yn},#{authid})
+</insert>
+
+
+<update id="setSQLUpdate" parameterType="hashmap">
+    update book
+    set
+        bookname   = #{updatevalue.bookname}
+        ,publisher = #{updatevalue.publisher}
+        ,year      = #{updatevalue.year}
+        ,price     = #{updatevalue.price}
+        ,dtm       = #{updatevalue.dtm}
+        ,use_yn    = #{updatevalue.use_yn}
+        ,authid    = #{updatevalue.authid}
+
+    
+     where 1=1
+     <if test="searchvalue.bookid != null">
+        and bookid = #{searchvalue.bookid}
+     </if>
+     <if test="searchvalue.bookname != null">
+         and bookname = #{searchvalue.bookname}
+     </if>
+<!--      <if test="search_use_yn == true"> -->
+<!--          and USE_YN  = #{search_use_yn} -->
+<!--      </if> -->    
+</update>
+<delete id="setSQLDelete" parameterType="modelbook">
+    delete from book
+    where 1=1
+    <if test="book.bookid != null">
+        and bookid  = #{book.bookid}
+    </if>
+    <if test="book.bookname != null">
+        and bookname  = #{book.bookname} 
+    </if>
+<!--     <if test="book.use_yn != null"> -->
+<!--         and use_yn    = #{book.use_yn} -->
+<!--     </if> -->
+
+</delete>
+
+    
+ </mapper>

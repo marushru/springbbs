@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mapper.mapperuser">
+    
+<insert id="insertUser" parameterType="ModelUser">
+    INSERT INTO TB_USER
+    (userid, email, passwd, name, mobile, retireYN, InsertUID, InsertDT, UpdateUID, UpdateDT)
+    VALUES(#{userid}, #{email}, #{passwd}, #{name}, #{mobile} , 0 , #{InsertUID}, #{InsertDT}, #{UpdateUID}, #{UpdateDT})
+</insert>
+
+<select id="login" parameterType="ModelUser" resultType="ModelUser">
+        select userid, passwd, retireYN
+        from TB_USER
+        WHERE 
+            retireYN = 0
+            AND userid = #{userid}
+            AND passwd = #{passwd}
+
+</select>
+
+<update id="logout" parameterType="String" >
+</update>
+
+<update id="updateUserInfo" parameterType="hashmap">
+        UPDATE TB_USER 
+           SET email=#{updatevalue.email}
+           ,passwd=#{updatevalue.passwd}
+           ,name=#{updatevalue.name}
+           ,mobile=#{updatevalue.mobile} 
+           ,retireYN=#{updatevalue.retireYN}
+           ,UpdateUID=#{updatevalue.UpdateUID} 
+           ,UpdateDT=#{updatevalue.UpdateDT}  
+           
+        WHERE 1 = 1
+        <if test="searchvalue.userno != null">
+            AND userno = #{searchvalue.userno}
+        </if>
+
+</update>
+
+<update id="updatePasswd" parameterType="hashmap" >
+        UPDATE TB_USER 
+           SET passwd=#{updatevalue.passwd} 
+           
+        WHERE 1 = 1
+        <if test="searchvalue.userid != null">
+            AND userid = #{searchvalue.userid}
+        </if>
+</update>
+
+<update id="UpdatedeleteUser" parameterType="hashmap" >
+        UPDATE TB_USER 
+           SET retireYN=1 
+           
+        WHERE 1 = 1
+        <if test="searchvalue.userid != null">
+            AND userid = #{searchvalue.userid}
+        </if>
+</update>
+
+<select id="selectUserOne" parameterType="ModelUser" resultType="ModelUser">
+         SELECT *
+         FROM TB_USER 
+         WHERE userno = #{userno}
+</select>
+
+<select id="selectUserList" parameterType="ModelUser" resultType="ModelUser">
+        SELECT *
+        FROM TB_USER
+        where 1=1
+            <if test= "userid != null">
+                AND (userid LIKE '%'||#{userid}||'%')
+            </if>
+            <if test= "name != null">
+                AND (name LIKE '%'||#{name}||'%')
+            </if>
+            <if test= "email != null">
+                AND (email LIKE '%'||#{email}||'%')
+            </if>
+            <if test= "mobile != null">
+                AND (mobile LIKE '%'||#{mobile}||'%')
+            </if>
+            <if test= "retireYN != null">
+                AND (retireYN LIKE '%'||#{retireYN}||'%')
+            </if>
+            
+        ORDER BY userno
+</select>
+
+
+ </mapper>

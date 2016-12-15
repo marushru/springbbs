@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+        
+<!-- http://mybatis.github.io/mybatis-3/ko/configuration.html#settings  -->        
+<configuration> 
+    
+    <typeAliases>
+        <typeAlias type="mybatis.model.modelbook"           alias="modelbook"      />
+        <typeAlias type="mybatis.model.ModelArticle"        alias="ModelArticle"      />
+        <typeAlias type="mybatis.model.ModelAttachfile"     alias="ModelAttachfile"      />
+        <typeAlias type="mybatis.model.ModelBoard"          alias="ModelBoard"      />
+        <typeAlias type="mybatis.model.ModelComments"       alias="ModelComments"      />
+        <typeAlias type="mybatis.model.ModelUser"       alias="ModelUser"      />
+    </typeAliases>
+    
+    
+    <mappers>
+        <mapper resource="mybatis/mapper/mapperBook.xml" />
+        <mapper resource="mybatis/mapper/mapperBoard.xml" />
+        <mapper resource="mybatis/mapper/mapperuser.xml" />
+    </mappers>
+    
+</configuration>
